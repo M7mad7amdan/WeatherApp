@@ -39,10 +39,14 @@ checkBtn.addEventListener("click", async () => {
 
   try {
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=${API_KEY}&units=metric`
+      `https://api.openweathermap.org/data/2.5/weather?q=${selectedCity}&appid=${API_KEY}&units=metric&timestamp=${Date.now()}`
     );
 
     const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Weather API request failed");
+    }
 
     if (!data.weather || !data.main) {
       throw new Error("Invalid weather data");
@@ -54,24 +58,30 @@ checkBtn.addEventListener("click", async () => {
     const led = mapWeatherToLED(condition, temp);
     const status = mapWeatherToStatus(condition, temp);
 
-    weatherCondition.textContent = condition;
-    temperature.textContent = `${temp} °C`;
-    ledOutput.textContent = led;
-
-    await set(ref(database, "weatherData"), {
+    const weatherPayload = {
       city: selectedCity,
       condition: condition,
       temperature: temp,
       led: led,
       status: status,
-      updatedAt: new Date().toISOString()
-    });
+      updatedAt: new Date().toISOString(),
+      updatedAtMs: Date.now()
+    };
+
+    await set(ref(database, "weatherData"), weatherPayload);
+
+    cityName.textContent = selectedCity;
+    weatherCondition.textContent = condition;
+    temperature.textContent = `${temp} °C`;
+    ledOutput.textContent = led;
 
     projectMessage.textContent = "Weather data sent to Firebase successfully.";
     statusBadge.textContent = "Updated";
+
+    console.log("Firebase updated:", weatherPayload);
   } catch (error) {
-    console.error(error);
-    projectMessage.textContent = "Error fetching weather or sending data.";
+    console.error("Error:", error);
+    projectMessage.textContent = `Error: ${error.message}`;
     statusBadge.textContent = "Error";
   }
 });
