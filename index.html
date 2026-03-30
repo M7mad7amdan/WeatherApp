@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather2Light</title>
+
+  <!-- Bootstrap -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Bootstrap Icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #f7d6ff, #d9c2ff, #c7e7ff);
+  overflow-x: hidden;
+}
+
+.bg-shapes::before,
+.bg-shapes::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(70px);
+  z-index: 0;
+}
+
+.bg-shapes::before {
+  width: 260px;
+  height: 260px;
+  background: rgba(168, 85, 247, 0.25);
+  top: 50px;
+  left: 40px;
+}
+
+.bg-shapes::after {
+  width: 300px;
+  height: 300px;
+  background: rgba(59, 130, 246, 0.20);
+  bottom: 30px;
+  right: 40px;
+}
+
+.main-section {
+  position: relative;
+  z-index: 1;
+}
+
+.main-card {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  border-radius: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.left-panel {
+  background: linear-gradient(180deg, rgba(168, 85, 247, 0.95), rgba(236, 72, 153, 0.88));
+  color: white;
+}
+
+.right-panel {
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.project-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.project-title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.project-text {
+  font-size: 1rem;
+  line-height: 1.8;
+  opacity: 0.95;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2d1b45;
+}
+
+.section-subtitle {
+  color: #6b7280;
+  margin-bottom: 0;
+}
+
+.custom-input {
+  border-radius: 14px;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  box-shadow: none !important;
+}
+
+.custom-input:focus {
+  border-color: #a855f7;
+}
+
+.custom-btn {
+  border: none;
+  border-radius: 14px;
+  padding: 13px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(90deg, #a855f7, #ec4899);
+  transition: 0.3s;
+}
+
+.custom-btn:hover {
+  transform: translateY(-2px);
+  color: white;
+}
+
+.result-card {
+  background: white;
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.info-box {
+  background: #f8f7ff;
+  border: 1px solid #eee9ff;
+  border-radius: 16px;
+  padding: 16px;
+  height: 100%;
+}
+
+.info-box small {
+  display: block;
+  color: #7b7b93;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.info-box h6 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #2a2140;
+  font-weight: 700;
+}
+
+.status-badge {
+  background: #ede9fe;
+  color: #6d28d9;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.custom-alert {
+  border: none;
+  border-radius: 14px;
+  background: #f3f4f6;
+  color: #374151;
+  font-weight: 500;
+}
+
+.led-preview {
+  background: rgba(255, 255, 255, 0.16);
+  padding: 20px;
+  border-radius: 18px;
+}
+
+.led-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.sunny {
+  background: green;
+}
+
+.rainy {
+  background: blue;
+}
+
+.hot {
+  background: red;
+}
+
+@media (max-width: 991px) {
+  .project-title {
+    font-size: 1.9rem;
+  }
+}
+  </style>
+</head>
+
+<body>
+  <div class="bg-shapes"></div>
+
+  <section class="main-section d-flex align-items-center min-vh-100">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+          <div class="main-card shadow-lg">
+            <div class="row g-0">
+              
+              <!-- Left Side -->
+              <div class="col-lg-5 left-panel">
+                <div class="p-4 p-md-5 h-100 d-flex flex-column justify-content-between">
+                  <div>
+                    <span class="project-badge">
+                      <i class="bi bi-cloud-sun-fill me-2"></i>
+                      Smart Weather Project
+                    </span>
+
+                    <h1 class="project-title mt-4">Weather2Light</h1>
+                    <p class="project-text mt-3">
+                      A smart web interface that checks the weather and sends the result
+                      to ESP32 to control LEDs based on weather conditions.
+                    </p>
+                  </div>
+
+                  <div class="led-preview mt-4">
+                    <h6 class="mb-3">LED Meaning</h6>
+
+                    <div class="d-flex align-items-center mb-2">
+                      <span class="led-dot sunny me-2"></span>
+                      <span>Sunny</span>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-2">
+                      <span class="led-dot rainy me-2"></span>
+                      <span>Rainy</span>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                      <span class="led-dot hot me-2"></span>
+                      <span>Hot</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Side -->
+              <div class="col-lg-7 right-panel">
+                <div class="p-4 p-md-5">
+                  <div class="mb-4">
+                    <h2 class="section-title">Check Weather</h2>
+                    <p class="section-subtitle">
+                      Select a city and display the weather result.
+                    </p>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="citySelect" class="form-label fw-semibold">Choose City</label>
+                    <select id="citySelect" class="form-select custom-input">
+                      <option value="Nablus">Nablus</option>
+                      <option value="Jerusalem">Jerusalem</option>
+                      <option value="Amman">Amman</option>
+                      <option value="Dubai">Dubai</option>
+                      <option value="London">London</option>
+                      <option value="Istanbul">Istanbul</option>
+                    </select>
+                  </div>
+
+                  <button id="checkBtn" class="btn custom-btn w-100 mb-4">
+                    <i class="bi bi-search-heart me-2"></i>
+                    Check Weather
+                  </button>
+
+                  <div class="result-card">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                      <h5 class="mb-0">Weather Result</h5>
+                      <span id="statusBadge" class="badge status-badge">Waiting</span>
+                    </div>
+
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <div class="info-box">
+                          <small>City</small>
+                          <h6 id="cityName">-</h6>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="info-box">
+                          <small>Condition</small>
+                          <h6 id="weatherCondition">-</h6>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="info-box">
+                          <small>Temperature</small>
+                          <h6 id="temperature">-</h6>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="info-box">
+                          <small>LED Output</small>
+                          <h6 id="ledOutput">-</h6>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="mt-4">
+                      <div class="alert custom-alert mb-0" id="projectMessage">
+                        Ready to check the weather.
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="index.js"></script>
+</body>
+</html>
+</body>
+</html>
