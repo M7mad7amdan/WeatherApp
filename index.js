@@ -1,3 +1,20 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBK22RzIHgQe95iSzLOxwLO52dl0HT-xGA",
+  authDomain: "weatherwebsite-c16f2.firebaseapp.com",
+  databaseURL: "https://weatherwebsite-c16f2-default-rtdb.firebaseio.com",
+  projectId: "weatherwebsite-c16f2",
+  storageBucket: "weatherwebsite-c16f2.firebasestorage.app",
+  messagingSenderId: "680669491127",
+  appId: "1:680669491127:web:76dd607cf9b5be5e3cc232",
+  measurementId: "G-KC8FREFH83"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
 const API_KEY = "765decf1958f0b73a049563543e48672";
 
 const citySelect = document.getElementById("citySelect");
@@ -17,6 +34,7 @@ checkBtn.addEventListener("click", async () => {
   weatherCondition.textContent = "Loading...";
   temperature.textContent = "Loading...";
   ledOutput.textContent = "...";
+  projectMessage.textContent = "Checking weather...";
   statusBadge.textContent = "Loading...";
 
   try {
@@ -26,31 +44,66 @@ checkBtn.addEventListener("click", async () => {
 
     const data = await response.json();
 
+    if (!data.weather || !data.main) {
+      throw new Error("Invalid weather data");
+    }
+
     const condition = data.weather[0].main;
     const temp = data.main.temp;
 
+    const led = mapWeatherToLED(condition, temp);
+    const status = mapWeatherToStatus(condition, temp);
+
     weatherCondition.textContent = condition;
     temperature.textContent = `${temp} °C`;
-
-    const led = mapWeatherToLED(condition, temp);
     ledOutput.textContent = led;
 
-    projectMessage.textContent = `Sending "${led}" signal to ESP32...`;
-    statusBadge.textContent = "Updated";
+    await set(ref(database, "weatherData"), {
+      city: selectedCity,
+      condition: condition,
+      temperature: temp,
+      led: led,
+      status: status,
+      updatedAt: new Date().toISOString()
+    });
 
+    projectMessage.textContent = "Weather data sent to Firebase successfully.";
+    statusBadge.textContent = "Updated";
   } catch (error) {
     console.error(error);
-    projectMessage.textContent = "Error fetching weather data!";
+    projectMessage.textContent = "Error fetching weather or sending data.";
     statusBadge.textContent = "Error";
   }
 });
 
 function mapWeatherToLED(condition, temp) {
-  if (condition === "Rain") return "Blue LED";
-  if (condition === "Clouds") return "White LED";
-  if (condition === "Clear") {
-    if (temp > 30) return "Red LED";
-    return "Yellow LED";
+  if (condition === "Rain" || condition === "Drizzle" || condition === "Thunderstorm") {
+    return "Blue LED";
   }
+
+  if (condition === "Clouds" || condition === "Mist" || condition === "Fog" || condition === "Haze") {
+    return "White LED";
+  }
+
+  if (condition === "Clear" && temp > 30) {
+    return "Red LED";
+  }
+
   return "Yellow LED";
+}
+
+function mapWeatherToStatus(condition, temp) {
+  if (condition === "Rain" || condition === "Drizzle" || condition === "Thunderstorm") {
+    return "rain";
+  }
+
+  if (condition === "Clouds" || condition === "Mist" || condition === "Fog" || condition === "Haze") {
+    return "cloudy";
+  }
+
+  if (condition === "Clear" && temp > 30) {
+    return "hot";
+  }
+
+  return "sunny";
 }
