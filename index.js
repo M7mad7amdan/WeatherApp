@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBK22RzIHgQe95iSzLOxwLO52dl0HT-xGA",
@@ -68,17 +68,17 @@ checkBtn.addEventListener("click", async () => {
       updatedAtMs: Date.now()
     };
 
-    await set(ref(database, "weatherData"), weatherPayload);
+    await push(ref(database, "weatherHistory"), weatherPayload);
 
     cityName.textContent = selectedCity;
     weatherCondition.textContent = condition;
     temperature.textContent = `${temp} °C`;
     ledOutput.textContent = led;
 
-    projectMessage.textContent = "Weather data sent to Firebase successfully.";
+    projectMessage.textContent = "Weather data saved to Firebase history.";
     statusBadge.textContent = "Updated";
 
-    console.log("Firebase updated:", weatherPayload);
+    console.log("Firebase history added:", weatherPayload);
   } catch (error) {
     console.error("Error:", error);
     projectMessage.textContent = `Error: ${error.message}`;
