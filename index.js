@@ -92,9 +92,6 @@ function mapWeatherToLED(condition, temp) {
     return "Blue LED";
   }
 
-  if (condition === "Clouds" || condition === "Mist" || condition === "Fog" || condition === "Haze") {
-    return "White LED";
-  }
 
   if (condition === "Clear" && temp > 30) {
     return "Red LED";
