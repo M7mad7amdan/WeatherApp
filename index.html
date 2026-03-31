@@ -24,36 +24,38 @@
   />
 
   <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
+<style>
+body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #f7d6ff, #d9c2ff, #c7e7ff);
+  background: linear-gradient(135deg, #0f172a, #020617);
+  color: #e5e7eb;
   overflow-x: hidden;
 }
 
+/* خلفية glow */
 .bg-shapes::before,
 .bg-shapes::after {
   content: "";
   position: fixed;
   border-radius: 50%;
-  filter: blur(70px);
+  filter: blur(100px);
   z-index: 0;
 }
 
 .bg-shapes::before {
-  width: 260px;
-  height: 260px;
-  background: rgba(168, 85, 247, 0.25);
-  top: 50px;
+  width: 300px;
+  height: 300px;
+  background: rgba(16, 185, 129, 0.25); /* green aura */
+  top: 40px;
   left: 40px;
 }
 
 .bg-shapes::after {
-  width: 300px;
-  height: 300px;
-  background: rgba(59, 130, 246, 0.20);
-  bottom: 30px;
+  width: 320px;
+  height: 320px;
+  background: rgba(56, 189, 248, 0.25); /* sky blue */
+  bottom: 40px;
   right: 40px;
 }
 
@@ -62,137 +64,114 @@
   z-index: 1;
 }
 
+/* الكارد الرئيسي */
 .main-card {
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(12px);
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(20px);
   border-radius: 28px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+/* اليسار */
 .left-panel {
-  background: linear-gradient(180deg, rgba(168, 85, 247, 0.95), rgba(236, 72, 153, 0.88));
+  background: linear-gradient(180deg, #10b981, #38bdf8);
   color: white;
 }
 
+/* اليمين */
 .right-panel {
-  background: rgba(255, 255, 255, 0.82);
+  background: rgba(2, 6, 23, 0.85);
 }
 
-.project-badge {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.18);
-  padding: 10px 16px;
-  border-radius: 999px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
+/* النصوص */
 .project-title {
   font-size: 2.3rem;
   font-weight: 700;
-  margin: 0;
-}
-
-.project-text {
-  font-size: 1rem;
-  line-height: 1.8;
-  opacity: 0.95;
 }
 
 .section-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #2d1b45;
+  color: #e5e7eb;
 }
 
 .section-subtitle {
-  color: #6b7280;
-  margin-bottom: 0;
+  color: #9ca3af;
 }
 
+/* input */
 .custom-input {
   border-radius: 14px;
   padding: 12px 14px;
-  border: 1px solid #ddd;
-  box-shadow: none !important;
+  border: 1px solid #334155;
+  background: #020617;
+  color: #e5e7eb;
 }
 
 .custom-input:focus {
-  border-color: #a855f7;
+  border-color: #38bdf8;
 }
 
+/* زر */
 .custom-btn {
   border: none;
   border-radius: 14px;
   padding: 13px;
   font-weight: 600;
   color: white;
-  background: linear-gradient(90deg, #a855f7, #ec4899);
+  background: linear-gradient(90deg, #10b981, #38bdf8);
   transition: 0.3s;
 }
 
 .custom-btn:hover {
   transform: translateY(-2px);
-  color: white;
 }
 
+/* result card */
 .result-card {
-  background: white;
+  background: #020617;
   border-radius: 22px;
   padding: 24px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
+/* info boxes */
 .info-box {
-  background: #f8f7ff;
-  border: 1px solid #eee9ff;
+  background: #0f172a;
+  border: 1px solid #1e293b;
   border-radius: 16px;
   padding: 16px;
-  height: 100%;
 }
 
 .info-box small {
-  display: block;
-  color: #7b7b93;
-  margin-bottom: 8px;
-  font-size: 13px;
+  color: #9ca3af;
 }
 
 .info-box h6 {
-  margin: 0;
-  font-size: 1.05rem;
-  color: #2a2140;
-  font-weight: 700;
+  color: #e5e7eb;
 }
 
+/* status badge */
 .status-badge {
-  background: #ede9fe;
-  color: #6d28d9;
-  padding: 8px 14px;
-  border-radius: 999px;
-  font-weight: 600;
+  background: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
 }
 
+/* alert */
 .custom-alert {
-  border: none;
-  border-radius: 14px;
-  background: #f3f4f6;
-  color: #374151;
-  font-weight: 500;
+  background: #0f172a;
+  color: #cbd5f5;
 }
 
+/* LED preview */
 .led-preview {
-  background: rgba(255, 255, 255, 0.16);
-  padding: 20px;
-  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
 }
 
+/* dots */
 .led-dot {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  display: inline-block;
 }
 
 .sunny {
@@ -212,7 +191,7 @@
     font-size: 1.9rem;
   }
 }
-  </style>
+</style>
 </head>
 
 <body>

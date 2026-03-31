@@ -55,8 +55,9 @@ checkBtn.addEventListener("click", async () => {
     const condition = data.weather[0].main;
     const temp = data.main.temp;
 
-    const led = mapWeatherToLED(condition, temp);
-    const status = mapWeatherToStatus(condition, temp);
+    // 🔥 المنطق الجديد (نفس ESP)
+    const led = mapTempToLED(temp);
+    const status = mapTempToStatus(temp);
 
     const weatherPayload = {
       city: selectedCity,
@@ -87,31 +88,23 @@ checkBtn.addEventListener("click", async () => {
   }
 });
 
-function mapWeatherToLED(condition, temp) {
-  if (condition === "Rain" || condition === "Drizzle" || condition === "Thunderstorm") {
-    return "Blue LED";
+
+// 🔥 نفس منطق ESP بالضبط
+function mapTempToLED(temp) {
+  if (temp < 13) {
+    return "Blue LED";     // بارد
+  } 
+  else if (temp >= 13 && temp <= 16) {
+    return "Green LED";    // معتدل
+  } 
+  else {
+    return "Yellow LED";   // حار
   }
-
-
-  if (condition === "Clear" && temp > 30) {
-    return "Red LED";
-  }
-
-  return "Green LED";
 }
 
-function mapWeatherToStatus(condition, temp) {
-  if (condition === "Rain" || condition === "Drizzle" || condition === "Thunderstorm") {
-    return "rain";
-  }
-
-  if (condition === "Clouds" || condition === "Mist" || condition === "Fog" || condition === "Haze") {
-    return "cloudy";
-  }
-
-  if (condition === "Clear" && temp > 30) {
-    return "hot";
-  }
-
-  return "sunny";
+// 🔥 status بسيط للـ ESP
+function mapTempToStatus(temp) {
+  if (temp < 13) return "cold";
+  if (temp >= 13 && temp <= 16) return "normal";
+  return "hot";
 }
