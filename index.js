@@ -97,7 +97,7 @@ function mapWeatherToLED(condition, temp) {
     return "Red LED";
   }
 
-  return "Yellow LED";
+  return "Green LED";
 }
 
 function mapWeatherToStatus(condition, temp) {
