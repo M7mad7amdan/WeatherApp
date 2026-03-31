@@ -98,7 +98,7 @@ function mapTempToLED(temp) {
     return "Green LED";    // معتدل
   } 
   else {
-    return "Yellow LED";   // حار
+    return "Red LED";   // حار
   }
 }
 
